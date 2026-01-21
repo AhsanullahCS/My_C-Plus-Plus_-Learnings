@@ -1,0 +1,166 @@
+#include<iostream>
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+    node *previous;
+};
+
+node *head = NULL;
+
+void insert(int n)
+{
+   node *newnode = new node;
+   newnode -> data = n;
+   newnode -> next = head;
+   newnode -> previous = NULL;
+
+   if(head != NULL)
+   {
+    head -> previous = newnode;
+   }
+   head = newnode;
+}
+
+//deletion at start
+void deleteatbegning()
+{
+    if (head == NULL)
+   {
+    cout<<"list is empty";
+    return;
+   }
+
+   node *temp = head;
+   head = head -> next;
+   if(head != NULL)             //when their is a 1 node nean NULL is store in next
+   {// this mean we have more then 1 node so we also have to make the 2 nd node previous pointer as NULL because 2nd node is pointing 1 node
+      head->previous = NULL;
+   }
+   delete temp;
+}
+
+void delAtEnd()
+{
+    if(head == NULL)
+    {
+        cout<<"LIST IS EMPTY";
+        return;
+    }
+
+     node *temp = head;
+    while(temp -> next != NULL)
+    {
+        temp = temp -> next;
+    }
+
+    if(temp -> previous != NULL)// if their is  node then previous == null  for more then 1 node
+    {// not we make the 2nd last node next pointer as null 
+        temp -> previous->next = NULL;
+    }
+    else
+    {
+        head = NULL; // if only one node then we make the head pointer as null
+    }
+    delete temp;
+}
+//delete at specific point 
+void delAtSpePoint(int position)
+{
+    if (head == NULL)
+    {
+        cout<<"LIST IS EMPTY";
+    }
+    node *temp = head;
+
+    if(position == 1)// if user enter the position 1
+    {
+        head = head->next;
+        if(head != NULL)
+        {
+            head ->previous = NULL;
+        }
+        delete temp;
+    }
+//               1<  3
+    for(int i=1; i<position && temp != NULL; i++)   //[10] ⇄ [20] ⇄ [30] ⇄ [40] ⇄ [50]
+    {
+        temp = temp -> next; // temp correctly land at  position but 3rd iteration not work i=1 → temp becomes 20, i=2 → temp becomes 30. ✅ My earlier wording  
+    }
+    //if user say to delete the value that does not exist
+    if(temp == NULL)
+    {
+        cout<<"THE POSITION YOU ENTER IS NOT IN THE list";
+    }//temp = [30]     and        temp->next = [40]      and       temp->previous = [20]
+
+    if(temp -> next != NULL) //ya is laya kiya ka ho sakta ha ka aaga koi node ho hi na
+    {
+        temp -> next->previous = temp -> previous; 
+    } // temp -> next->previou***- means 30 sa next wala ka backwala  ***+-+-++-++***temp -> previous *-*-*means ka 30 sa back wala
+
+    if(temp -> previous != NULL)// ho sakta ha ka is sa pehla koi node na ha
+    {
+        temp ->previous->next = temp->next;
+        //means ka 30 ka previous la jo next ha wa equal ho jae temp next means 30 ka aagla
+    }
+
+delete temp;
+}
+
+void search(int n)
+{
+    node *temp = head;
+    int pos = 1;
+    bool found = false;
+
+    while(temp != NULL)
+    {
+        if(temp->data == n)
+        {
+            cout << "The number " << n << " is at position " << pos << endl;
+            found = true;
+            break;   // stop after finding first occurrence
+        }
+        temp = temp->next;
+        pos++;
+    }
+
+    if (!found)
+    {
+        cout << "The number " << n << " is not in the list" << endl;
+    }
+}
+
+
+void print()
+{
+    if(head == NULL)
+    {
+        cout<<"LIST IS EMPTY";
+    }
+    node *temp = head;
+    while(temp != NULL)
+    {
+        cout<< temp -> data<<"  ";
+        temp = temp -> next;
+    }
+}
+int main()
+{
+    insert(10);
+    insert(20);
+    insert(30);
+    insert(40);
+    insert(50);
+    insert(60);
+    insert(70);
+    deleteatbegning();
+    delAtEnd();
+    delAtSpePoint(3);
+    search(30);
+    print();
+  
+return 0;
+}
