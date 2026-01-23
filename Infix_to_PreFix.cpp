@@ -78,7 +78,7 @@ void infix_to_prefix(string infix)
         prefix += pop();
     }
     string PreFix = reverseIt(prefix);
-    cout<<"THE PREFIX OF THE EXPRESSION IS ::  "<<PreFix<<endl;
+    cout<<"THE PREFIX OF THE EXPRESSION IS :  "<<PreFix<<endl;
 }
 
 int main()
