@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stack>
+#include <queue>
 #include <vector>
 using namespace std;
 
@@ -18,8 +18,8 @@ int main()
         AdjList[e1].push_back(e2);
         AdjList[e2].push_back(e1);
     }
-    cout<<"::>---------------<::DFS::>----------------<::"<<endl;
-    stack<int>st;
+    cout<<"::>---------------<::BFS::>----------------<::"<<endl;
+    queue<int>st;
     vector<int>visited(n+1,false);
 
     st.push(1);
@@ -27,7 +27,7 @@ int main()
 
     while (!st.empty())
     {
-        int node =st.top();
+        int node =st.front();
         st.pop();
         cout<<node<<" ";
         for(int next : AdjList[node])
